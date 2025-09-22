@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -59,3 +60,30 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+=======
+
+## Documentación del proyecto: api-dolar
+
+**api-dolar** es una API desarrollada en Laravel que permite convertir montos en dólares estadounidenses a pesos argentinos utilizando cotizaciones actualizadas.
+
+### Características principales
+- **Conversión de moneda:** Recibe un valor en dólares y retorna el equivalente en pesos argentinos.
+- **Obtención de cotización:** Consume una API externa para obtener la cotización actual del dólar (puede ser oficial u otro tipo).
+- **Endpoint principal:** `/api/convertir` (GET), parámetros: `valor` (monto en USD), `tipo` (tipo de dólar, por defecto "oficial").
+- **Autenticación:** Incluye middleware para autenticación con Laravel Sanctum en otros endpoints.
+- **Configuración flexible:** La URL de la API de cotización se define en el archivo de configuración `config/services.php`.
+
+### Ejemplo de uso
+```http
+GET /api/convertir?valor=100&tipo=oficial
+```
+Respuesta:
+```json
+{
+  "tipo": "oficial",
+  "valor_dolar": 100,
+  "cotizacion": 900,
+  "resultado_en_pesos": 90000
+}
+```
+>>>>>>> 496e36f74c8406be6b2bd7b1012c796068bff5ae
