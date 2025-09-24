@@ -36,11 +36,12 @@ dólares.'], 400);
         }
         $resultado = $valorUSD * $cotizacion;
         // Guardar la consulta en la base de datos
-        $consulta = Cotizacion::create([
+        $consulta = Cotizacion::updateOrCreate([
             'tipo' => $tipo,
+            'fecha_actualizacion' => $fecha_actualizacion,
+        ], [
             'compra' => $compra,
             'venta' => $cotizacion,
-            'fecha_actualizacion' => $fecha_actualizacion,
             'fuente' => $fuente,
             'fecha_consulta' => now(),
         ]);

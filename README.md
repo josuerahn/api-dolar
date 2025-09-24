@@ -28,7 +28,8 @@ Respuesta:
 ### Guardar y consultar cotización
 
 **GET** `/api/convertir?valor=100&tipo=blue`
-- Guarda la cotización y devuelve el resultado de conversión, junto con el promedio mensual/anual de venta.
+- Guarda la cotización (actualiza si ya existe para ese tipo y fecha) y devuelve el resultado de conversión, junto con el promedio mensual/anual de venta.
+- El sistema utiliza `updateOrCreate` para evitar duplicados en la base de datos, asegurando que cada cotización por tipo y fecha se actualice si ya existe.
 - Parámetros:
   - `valor`: monto en dólares (obligatorio)
   - `tipo`: tipo de dólar (opcional, por defecto "oficial")
