@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Cotizacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -36,12 +35,11 @@ dólares.'], 400);
         }
         $resultado = $valorUSD * $cotizacion;
         // Guardar la consulta en la base de datos
-        $consulta = Cotizacion::updateOrCreate([
+        $consulta = Cotizacion::create([
             'tipo' => $tipo,
-            'fecha_actualizacion' => $fecha_actualizacion,
-        ], [
             'compra' => $compra,
             'venta' => $cotizacion,
+            'fecha_actualizacion' => $fecha_actualizacion,
             'fuente' => $fuente,
             'fecha_consulta' => now(),
         ]);
