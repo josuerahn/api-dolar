@@ -8,3 +8,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/convertir', [CotizacionController::class, 'convertir']);
+Route::get('/promedio', [CotizacionController::class, 'promedio']);

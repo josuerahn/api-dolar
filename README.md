@@ -1,4 +1,3 @@
-
 ## Documentación del proyecto: api-dolar
 
 **api-dolar** es una API desarrollada en Laravel que permite convertir montos en dólares estadounidenses a pesos argentinos utilizando cotizaciones actualizadas.
@@ -23,3 +22,59 @@ Respuesta:
   "resultado_en_pesos": 90000
 }
 ```
+
+## Endpoints y rutas de prueba
+
+### Guardar y consultar cotización
+
+**GET** `/api/convertir?valor=100&tipo=blue`
+- Guarda la cotización y devuelve el resultado de conversión, junto con el promedio mensual/anual de venta.
+- Parámetros:
+  - `valor`: monto en dólares (obligatorio)
+  - `tipo`: tipo de dólar (opcional, por defecto "oficial")
+
+### Consultar promedios históricos
+
+**GET** `/api/promedio?tipo=blue&valor=venta&mes=09&anio=2025`
+- Devuelve el promedio mensual y anual de las cotizaciones guardadas según tipo y valor.
+- Parámetros:
+  - `tipo`: tipo de dólar (ej: blue, oficial, etc.)
+  - `valor`: `venta` o `compra`
+  - `mes`: mes en formato `MM` (opcional, por defecto el actual)
+  - `anio`: año en formato `YYYY` (opcional, por defecto el actual)
+
+### Comando para guardar cotización periódicamente (pruebas en terminal)
+
+```
+php artisan cotizacion:consultar oficial
+php artisan cotizacion:consultar blue
+```
+- Guarda la cotización en la base de datos según el tipo.
+
+## Estructura y archivos principales creados
+
+- **app/Models/Cotizacion.php**
+  - Modelo Eloquent para la tabla `cotizaciones`. Permite interactuar con los registros históricos de cotizaciones, incluyendo los campos tipo, compra, venta, fecha de consulta y fuente.
+
+- **database/migrations/xxxx_create_cotizaciones_table.php**
+  - Migración que crea la tabla `cotizaciones` en la base de datos, con los campos necesarios para guardar cada consulta y cotización.
+
+- **database/migrations/xxxx_add_fecha_consulta_to_cotizaciones_table.php**
+  - Migración que agrega el campo `fecha_consulta` para registrar la fecha exacta de cada consulta realizada.
+
+- **app/Http/Controllers/CotizacionController.php**
+  - Controlador principal de la API. Gestiona la consulta a la API pública, guarda cada cotización, calcula promedios y expone los endpoints `/api/convertir` y `/api/promedio`.
+
+- **app/Console/Commands/ConsultarCotizacion.php**
+  - Comando Artisan para consultar y guardar cotizaciones de manera periódica (ejecutado por el scheduler o manualmente).
+
+- **app/Console/Kernel.php**
+  - Configura el scheduler de Laravel para ejecutar el comando de consulta de cotización cada hora automáticamente.
+
+- **config/services.php**
+  - Archivo de configuración donde se define la URL base de la API pública de cotización del dólar.
+
+- **routes/api.php**
+  - Define las rutas de la API: `/api/convertir` para consultar y guardar cotizaciones, y `/api/promedio` para consultar promedios históricos.
+
+Cada uno de estos archivos cumple una función específica para que el sistema pueda consultar, guardar y analizar cotizaciones del dólar de forma automática y bajo demanda.
